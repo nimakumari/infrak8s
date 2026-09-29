@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: axion-telemetry
+  labels:
+    app: axion-telemetry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: axion-telemetry
+  template:
+    metadata:
+      labels:
+        app: axion-telemetry
+    spec:
+      containers:
+        - name: axion-telemetry
+          image: nimadevacr20260901.azurecr.io/axion-telemetry:v1
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 8000
+
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://Admin:Adminuser%40123@postgres:5432/axiondb"
+
+            - name: PORT
+              value: "8000"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: axion-telemetry-service
+  labels:
+    app: axion-telemetry
+spec:
+  type: ClusterIP
+  selector:
+    app: axion-telemetry
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000

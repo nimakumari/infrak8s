@@ -1,0 +1,9 @@
+.Terraform
+terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+axion-ui
+axion-telemetry-query-service
+axion-ingestion-service
+axion-database-schema
+axion-data-simulator

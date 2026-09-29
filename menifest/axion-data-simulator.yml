@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: axion-data-simulator
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: data-simulator
+
+  template:
+    metadata:
+      labels:
+        app: data-simulator
+
+    spec:
+      containers:
+        - name: data-simulator
+
+          image: nimadevacr20260901.azurecr.io/axion-data-simulator:v1
+          imagePullPolicy: Always
+
+          env:
+            - name: API_URL
+              value: "http://axion-ingestion-service.default.svc.cluster.local:80/api/v1/telemetry/ingest"
+
+            - name: INTERVAL_SECONDS
+              value: "5"
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "64Mi"
+
+            limits:
+              cpu: "250m"
+              memory: "128Mi"

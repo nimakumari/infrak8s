@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: axion-ingestion
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ingestionapp
+  template:
+    metadata:
+      labels:
+        app: ingestionapp
+    spec:
+      containers:
+        - name: ingestion-con
+          image: nimadevacr20260901.azurecr.io/axion-ingestion:v2
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 8000
+
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://Admin:Adminuser%40123@postgres:5432/axiondb"
+
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi

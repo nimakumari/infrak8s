@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: axion-ui
+  labels:
+    app: axion-ui
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: axion-ui
+
+  template:
+    metadata:
+      labels:
+        app: axion-ui
+
+    spec:
+      containers:
+        - name: axion-ui
+          image: nimadevacr20260901.azurecr.io/axion-ui:v1
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 80
+
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: axion-ui-service
+  labels:
+    app: axion-ui
+
+spec:
+  type: LoadBalancer
+
+  selector:
+    app: axion-ui
+
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
